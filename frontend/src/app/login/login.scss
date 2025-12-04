@@ -1,0 +1,18 @@
+#loginMainBox {
+  display: grid;
+  justify-content: center;
+  padding: 1rem;
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+#loginFormRow {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  align-items: center;
+}

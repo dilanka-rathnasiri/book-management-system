@@ -1,21 +1,17 @@
 from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
 
+from services import auth_services
+
 
 class AuthorizationMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        if "authorization" in request.headers:
-            auth_header = request.headers["authorization"]
-        elif "Authorization" in request.headers:
-            auth_header = request.headers["Authorization"]
-        else:
-            return Response(
-                status_code=401,
-                content='{"message": "Unauthorized"}',
-                media_type="application/json",
-            )
+        # Skip authorization for auth controller endpoints
+        if request.url.path.startswith("/auth"):
+            response = await call_next(request)
+            return response
 
-        if auth_header == "Bearer dilanka":
+        if auth_services.validate_request(request):
             response = await call_next(request)
             return response
 
