@@ -5,11 +5,12 @@ import { AuthServices } from '../services/auth-services';
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const authService = inject(AuthServices);
-  const token = authService.getToken()();
 
-  if (!token || token.trim() === '') {
-    router.navigate(['/login']);
-    return false;
+  if (authService.isAuthenticated()) {
+    return true;
   }
-  return true;
+
+  // No valid token, redirect to login
+  router.navigate(['/login']);
+  return false;
 };

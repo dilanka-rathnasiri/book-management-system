@@ -24,4 +24,11 @@ export class AuthServices {
   getToken(): Signal<string> {
     return this.bearerToken.asReadonly();
   }
+
+  isAuthenticated(): boolean {
+    if (!this.bearerToken() || this.bearerToken().trim() === '') {
+      return false;
+    }
+    return true;
+  }
 }
