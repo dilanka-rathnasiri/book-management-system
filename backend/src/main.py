@@ -21,6 +21,8 @@ def main() -> None:
 
     app: FastAPI = FastAPI()
 
+    app.add_middleware(AuthorizationMiddleware)
+
     # Add CORS middleware
     app.add_middleware(
         CORSMiddleware,
@@ -30,7 +32,6 @@ def main() -> None:
         allow_headers=["*"],
     )
 
-    app.add_middleware(AuthorizationMiddleware)
     app.include_router(auth_router)
     app.include_router(book_router)
 

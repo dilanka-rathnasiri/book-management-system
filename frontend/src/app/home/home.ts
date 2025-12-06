@@ -1,9 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
+import { Book } from '../models/Book';
+import { DataServices } from '../services/data-services';
+import { Spinner } from '../spinner/spinner';
+import { ErrorBanner } from '../error-banner/error-banner';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [Spinner, ErrorBanner],
   templateUrl: './home.html',
-  styleUrl: './home.scss',
 })
-export class Home {}
+export class Home {
+  books: WritableSignal<Book[]> = signal<Book[]>([]);
+  isLoading: WritableSignal<boolean> = signal<boolean>(true);
+  errorMessage: WritableSignal<string> = signal<string>('');
+
+  constructor(private dataService: DataServices) {}
+
+  ngOnInit() {
+    this.dataService.getData().subscribe({
+      next: (data) => {
+        this.books.set(data);
+        this.isLoading.set(false);
+      },
+      error: (e) => {
+        console.error(e);
+        this.errorMessage.set(e.message);
+        this.isLoading.set(false);
+      },
+    });
+  }
+}
