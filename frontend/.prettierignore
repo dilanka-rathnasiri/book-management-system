@@ -2,8 +2,5 @@
 **/.vscode
 **/node_modules
 **/dist
+**/.qodo
 **/.angular
-**/.windsurf
-**/venv
-**/__pycache__
-backend/static
