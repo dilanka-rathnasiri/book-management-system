@@ -1,3 +1,9 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <button type="button" class="btn btn-primary ms-auto" (click)="logout()">Log out</button>
+  </div>
+</nav>
+
 @if (isLoading()) {
   <app-spinner />
 } @else if (errorMessage() !== '') {
