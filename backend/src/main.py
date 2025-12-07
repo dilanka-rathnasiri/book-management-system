@@ -3,6 +3,7 @@ import os
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from controllers.auth_controller import auth_router
 from controllers.book_controller import book_router
@@ -34,6 +35,9 @@ def main() -> None:
 
     app.include_router(auth_router)
     app.include_router(book_router)
+
+    # Mount static files
+    app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
     uvicorn.run(app, host="0.0.0.0", port=server_port, log_config=None)
 
