@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 
 import services.book_services as book_services
 from models.data.book_data import BookData
+from models.data.partial_book import PartialBook
 
 book_router = APIRouter()
 
@@ -20,13 +21,13 @@ async def get_book_by_id(book_id: int) -> BookData:
 
 
 @book_router.post("/books")
-async def add_new_book(book: BookData) -> BookData:
-    return book_services.create_book(book)
+async def add_new_book(partial_book: PartialBook) -> BookData:
+    return book_services.create_book(partial_book)
 
 
 @book_router.put("/books/{book_id}")
-async def update_book(book_id: int, book: BookData) -> BookData:
-    updated_book = book_services.update_book(book_id, book)
+async def update_book(book_id: int, partial_book: PartialBook) -> BookData:
+    updated_book = book_services.update_book(book_id, partial_book)
     if not updated_book:
         raise HTTPException(status_code=404, detail="Book not found")
     return updated_book

@@ -2,6 +2,7 @@ from sqlmodel import select
 
 from connections.Db import Db
 from models.data.book_data import BookData
+from models.data.partial_book import PartialBook
 from models.orm.book_orm import BookORM
 
 
@@ -42,20 +43,21 @@ def get_book_by_id(book_id: int) -> BookData | None:
         )
 
 
-def create_book(book: BookData) -> BookData:
+def create_book(partial_book: PartialBook) -> BookData:
     """Create a new book"""
     with Db.get_new_session() as session:
         book_orm = BookORM(
-            title=book.title,
-            description=book.description,
-            author=book.author,
-            year=book.year,
-            category=book.category,
+            title=partial_book.title,
+            description=partial_book.description,
+            author=partial_book.author,
+            year=partial_book.year,
+            category=partial_book.category,
         )
         session.add(book_orm)
         session.commit()
         session.refresh(book_orm)
 
+        # todo: try to simplify
         return BookData(
             id=book_orm.id,
             title=book_orm.title,
@@ -66,22 +68,31 @@ def create_book(book: BookData) -> BookData:
         )
 
 
-def update_book(book_id: int, book: BookData) -> BookData | None:
+def update_book(book_id: int, partial_book: PartialBook) -> BookData | None:
     """Update an existing book"""
     with Db.get_new_session() as session:
-        result = session.get(BookORM, book_id)
+        book_orm = session.get(BookORM, book_id)
 
-        if not result:
+        if not book_orm:
             return None
 
-        result.title = book.title
-        result.description = book.description
-        result.author = book.author
-        result.year = book.year
-        result.category = book.category
+        book_orm.title = partial_book.title
+        book_orm.description = partial_book.description
+        book_orm.author = partial_book.author
+        book_orm.year = partial_book.year
+        book_orm.category = partial_book.category
         session.commit()
+        session.refresh(book_orm)
 
-        return book
+        # todo: try to simplify
+        return BookData(
+            id=book_orm.id,
+            title=book_orm.title,
+            description=book_orm.description,
+            author=book_orm.author,
+            year=book_orm.year,
+            category=book_orm.category,
+        )
 
 
 def delete_book(book_id: int) -> BookData | None:
