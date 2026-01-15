@@ -25,7 +25,7 @@ async def add_new_book(partial_book: PartialBook) -> BookData:
     return book_services.create_book(partial_book)
 
 
-@book_router.put("/books/{book_id}")
+@book_router.patch("/books/{book_id}")
 async def update_book(book_id: int, partial_book: PartialBook) -> BookData:
     updated_book = book_services.update_book(book_id, partial_book)
     if not updated_book:
