@@ -6,4 +6,5 @@
 **/.windsurf
 **/venv
 **/__pycache__
+backend/local.env
 backend/static
