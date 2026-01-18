@@ -7,37 +7,37 @@ import { AuthServices } from '../services/auth-services';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  imports: [Spinner, ErrorBanner],
-  templateUrl: './home.html',
+    selector: 'app-home',
+    imports: [Spinner, ErrorBanner],
+    templateUrl: './home.html',
 })
 export class Home {
-  books: WritableSignal<Book[]> = signal<Book[]>([]);
-  isLoading: WritableSignal<boolean> = signal<boolean>(true);
-  errorMessage: WritableSignal<string> = signal<string>('');
+    books: WritableSignal<Book[]> = signal<Book[]>([]);
+    isLoading: WritableSignal<boolean> = signal<boolean>(true);
+    errorMessage: WritableSignal<string> = signal<string>('');
 
-  constructor(
-    private dataService: DataServices,
-    private authServices: AuthServices,
-    private router: Router,
-  ) {}
+    constructor(
+        private dataService: DataServices,
+        private authServices: AuthServices,
+        private router: Router
+    ) {}
 
-  ngOnInit() {
-    this.dataService.getData().subscribe({
-      next: (data) => {
-        this.books.set(data);
-        this.isLoading.set(false);
-      },
-      error: (e) => {
-        console.error(e);
-        this.errorMessage.set(e.message);
-        this.isLoading.set(false);
-      },
-    });
-  }
+    ngOnInit() {
+        this.dataService.getData().subscribe({
+            next: (data) => {
+                this.books.set(data);
+                this.isLoading.set(false);
+            },
+            error: (e) => {
+                console.error(e);
+                this.errorMessage.set(e.message);
+                this.isLoading.set(false);
+            },
+        });
+    }
 
-  logout() {
-    this.authServices.logout();
-    this.router.navigate(['/login']);
-  }
+    logout() {
+        this.authServices.logout();
+        this.router.navigate(['/login']);
+    }
 }

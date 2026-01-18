@@ -3,12 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class DataServices {
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  getData(): Observable<any> {
-    return this.http.get('http://localhost:8000/books');
-  }
+    getData(): Observable<any> {
+        return this.http.get('http://localhost:8000/books');
+    }
 }

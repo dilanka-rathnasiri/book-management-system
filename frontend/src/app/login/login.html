@@ -1,22 +1,22 @@
 <div id="loginMainBox" class="container">
-  @if (showAlert()) {
-    <div class="alert" role="alert" [ngClass]="isSuccess() ? 'alert-success' : 'alert-danger'">
-      {{ isSuccess() ? 'Login successful!' : 'Login failed!' }}
+    @if (showAlert()) {
+        <div class="alert" role="alert" [ngClass]="isSuccess() ? 'alert-success' : 'alert-danger'">
+            {{ isSuccess() ? 'Login successful!' : 'Login failed!' }}
+        </div>
+    }
+    <div class="card">
+        <h2 class="card-header text-center">Login</h2>
+        <div class="card-body">
+            <div id="loginFormRow" class="mb-3">
+                <label class="form-label">Bearer Token</label>
+                <input
+                    type="text"
+                    [(ngModel)]="bearerToken"
+                    class="form-control"
+                    placeholder="Enter your bearer token"
+                />
+            </div>
+            <button type="button" (click)="onLogin()" class="btn btn-primary">Login</button>
+        </div>
     </div>
-  }
-  <div class="card">
-    <h2 class="card-header text-center">Login</h2>
-    <div class="card-body">
-      <div id="loginFormRow" class="mb-3">
-        <label class="form-label">Bearer Token</label>
-        <input
-          type="text"
-          [(ngModel)]="bearerToken"
-          class="form-control"
-          placeholder="Enter your bearer token"
-        />
-      </div>
-      <button type="button" (click)="onLogin()" class="btn btn-primary">Login</button>
-    </div>
-  </div>
 </div>
